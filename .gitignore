@@ -1,8 +1,6 @@
 # Dependencies
 node_modules
 
-# yarn error logs
-yarn-error.log
 
 # Environment varibales
 .env*
@@ -15,7 +13,3 @@ firebase.json
 package-lock.json
 yarn.lock
 
-input.mp3
-output.mp3
-
-google-play.service-account.json

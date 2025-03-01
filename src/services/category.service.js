@@ -64,9 +64,21 @@ const updateCategory = async (data, categoryId) => {
   return updatedCategory;
 };
 
+const deleteCategory = async (categoryId) => {
+  const category = await Category.findByPk(categoryId);
+
+  if (!category) {
+    throw new apiError(StatusCodes.NOT_FOUND, "Category not found");
+  }
+
+  await category.destroy();
+  return;
+};
+
 module.exports = {
   createCategory,
   findCategoryById,
   getAllCategory,
   updateCategory,
+  deleteCategory,
 };
