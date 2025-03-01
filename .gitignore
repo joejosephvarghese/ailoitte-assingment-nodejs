@@ -1,0 +1,21 @@
+# Dependencies
+node_modules
+
+# yarn error logs
+yarn-error.log
+
+# Environment varibales
+.env*
+!.env*.example
+
+# Code coverage
+coverage
+
+firebase.json
+package-lock.json
+yarn.lock
+
+input.mp3
+output.mp3
+
+google-play.service-account.json
