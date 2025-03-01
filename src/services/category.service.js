@@ -47,8 +47,26 @@ const getAllCategory = async (filter, options) => {
   return categories;
 };
 
+const updateCategory = async (data, categoryId) => {
+  const [updated] = await Category.update(data, {
+    where: { id: categoryId },
+    returning: true,
+  });
+
+  if (updated === 0) {
+    throw new apiError(StatusCodes.NOT_FOUND, "Category not found");
+  }
+
+  const updatedCategory = await Category.findOne({
+    where: { id: categoryId },
+  });
+
+  return updatedCategory;
+};
+
 module.exports = {
   createCategory,
   findCategoryById,
   getAllCategory,
+  updateCategory,
 };

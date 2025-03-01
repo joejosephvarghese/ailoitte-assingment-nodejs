@@ -10,6 +10,8 @@ router.get('/', categoryController.getAllCategory);
 
 router.get('/:categoryId', categoryController.getByCategoryId);
 
+router.put('/:categoryId', categoryController.updateCategory);
+
 
 
 module.exports = router;

@@ -25,9 +25,16 @@ const getByCategoryId= catchAsync(async(req,res)=>{
   const category= await categoryService.findCategoryById(req.params.categoryId)
   res.status(StatusCodes.OK).json({result:category})
 })
+const updateCategory= catchAsync(async(req,res)=>{
+const {categoryId}= req.params
+const data= req.body
+  const category= await categoryService.updateCategory(data,categoryId)
+  res.status(StatusCodes.OK).json({result:category})
+})
 
 module.exports = {
   createCategory,
   getAllCategory,
-  getByCategoryId
+  getByCategoryId,
+  updateCategory
 };
