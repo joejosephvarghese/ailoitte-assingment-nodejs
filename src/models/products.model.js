@@ -27,6 +27,10 @@ const Product = sequelize.define('Product', {
     validate: {
       isDecimal: true,
     },
+    get() {
+      const value = this.getDataValue('price');
+      return value ? parseFloat(value) : null;
+    },
   },
   stock: {
     type: DataTypes.INTEGER,

@@ -1,18 +1,19 @@
 const { StatusCodes } = require("http-status-codes");
-const { Op } = require("sequelize");
+const { Sequelize, Op } = require("sequelize");
 const catchAsync = require("../utils/catchAsync");
 const { productService, categoryService } = require("../services");
 const ApiError = require("../utils/apiError");
 const { uploadImage, deleteImage } = require("../services/cloudinary.service");
 
-const {Category}=require('../models')
+const { Category } = require("../models");
 
 const createProduct = catchAsync(async (req, res) => {
   if (!req.body || Object.keys(req.body).length === 0) {
     throw new ApiError(400, "Missing request body");
   }
 
-  const { name, price, description, categoryId } = req.body;
+  let { name, price, description, categoryId } = req.body;
+  price = parseFloat(price);
 
   await categoryService.findCategoryById(categoryId);
 
@@ -47,7 +48,7 @@ const createProduct = catchAsync(async (req, res) => {
 });
 
 const getAllProducts = catchAsync(async (req, res) => {
-  let { page, limit, search, catagory } = req.query;
+  let { page, limit, search, catagory, minPrice, maxPrice,price } = req.query;
 
   let filter = {};
 
@@ -57,17 +58,37 @@ const getAllProducts = catchAsync(async (req, res) => {
     };
   }
 
+  if (catagory) {
+    filter.categoryId = catagory;
+  }
+  minPrice = parseFloat(minPrice);
+  maxPrice = parseFloat(maxPrice);
+
+  if (!isNaN(minPrice) || !isNaN(maxPrice)) {
+    filter.price = {};
+    if (!isNaN(minPrice)) filter.price[Op.gte] = minPrice;
+    if (!isNaN(maxPrice)) filter.price[Op.lte] = maxPrice;
+  }
+
   let options = {
     page,
     limit,
     include: [
       {
-        model: Category, // Populates the category details based on the association
-        as: 'category',  // Make sure this alias matches your association in the Product model
+        model: Category,
+        as: "category",
       },
     ],
-    
+    order: [],
   };
+
+  if (price) {
+    if (price.toLowerCase() === "asc") {
+      options.order.push(["price", "ASC"]);
+    } else if (price.toLowerCase() === "desc") {
+      options.order.push(["price", "DESC"]);
+    }
+  }
   const products = await productService.getAllProducts(filter, options);
   res.status(200).json(products);
 });
@@ -92,7 +113,6 @@ const updateProduct = catchAsync(async (req, res) => {
   }
 
   if (imagesToDeleteArray.length > 0) {
-    // Properly await extraction of public IDs for deletion
     const publicIdsToDelete = await Promise.all(
       imagesToDeleteArray.map(async (url) => {
         return await productService.extractPublicId(url);
@@ -140,22 +160,19 @@ const updateProduct = catchAsync(async (req, res) => {
   res.status(200).json(updatedProduct);
 });
 
-const getProductById= catchAsync(async(req,res)=>{
+const getProductById = catchAsync(async (req, res) => {
+  const product = await productService.findProductById(req.params.productId);
+  res.status(StatusCodes.OK).json({ result: product });
+});
 
-  const product =await productService.findProductById(req.params.productId)
-  res.status(StatusCodes.OK).json({result:product})
-})
-
-
-const deleteProduct= catchAsync(async(req,res)=>{
-
-  const product =await productService.deleteProduct(req.params.productId)
-  res.status(StatusCodes.OK).json({message:"OK"})
-})
+const deleteProduct = catchAsync(async (req, res) => {
+  const product = await productService.deleteProduct(req.params.productId);
+  res.status(StatusCodes.OK).json({ message: "OK" });
+});
 module.exports = {
   createProduct,
   getAllProducts,
   updateProduct,
   getProductById,
-  deleteProduct
+  deleteProduct,
 };
