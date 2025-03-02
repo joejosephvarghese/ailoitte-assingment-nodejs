@@ -40,24 +40,38 @@ const getUserCart = catchAsync(async (req, res) => {
     ],
   };
   const cartItems = await cartService.getUserCart(filter, option);
-  res.status(StatusCodes.OK).json(cartItems);
+  let grandTotal = 0;
+  cartItems.results = cartItems.results.map((item) => {
+    const subTotal = item.product.price * item.quantity;
+    grandTotal += subTotal;
+
+    return {
+      ...item.toJSON(),
+      subTotal,
+    };
+  });
+
+  res.status(StatusCodes.OK).json({
+    ...cartItems,
+    grandTotal,
+  });
 });
 
-const removeFromCart=catchAsync(async(req,res)=>{
-    const {cartId}= req.query
-    await cartService.removeItemFromCart(cartId);
-    res.status(StatusCodes.OK).json({message:"OK"})
-})
+const removeFromCart = catchAsync(async (req, res) => {
+  const { cartId } = req.query;
+  await cartService.removeItemFromCart(cartId);
+  res.status(StatusCodes.OK).json({ message: "OK" });
+});
 
-const clearUserCart=catchAsync(async(req,res)=>{
+const clearUserCart = catchAsync(async (req, res) => {
   const userId = req.user.id;
   await cartService.clearCart(userId);
-  res.status(StatusCodes.OK).json({message:"OK"})
-})
+  res.status(StatusCodes.OK).json({ message: "OK" });
+});
 
 module.exports = {
   addToCart,
   getUserCart,
   removeFromCart,
-  clearUserCart
+  clearUserCart,
 };

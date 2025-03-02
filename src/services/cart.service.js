@@ -7,10 +7,10 @@ const createCart = async (userId, productId, quantity = 1) => {
   const numQuantity = Number(quantity);
   const [cartItem, created] = await Cart.findOrCreate({
     where: { userId, productId },
-    defaults: { numQuantity },
+    defaults: { quantity: numQuantity },
   });
   if (!created) {
-    cartItem.quantity += numQuantity;
+    cartItem.quantity = numQuantity;
     await cartItem.save();
   }
   return cartItem;

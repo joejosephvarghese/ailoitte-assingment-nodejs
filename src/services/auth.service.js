@@ -17,8 +17,7 @@ const registerUser = async ({ name, email, password, profilePic }) => {
     name,
     email,
     password: hashedPassword,
-    profilePic,
-    role: "user"
+    role: "admin"
   });
 
   const userWithoutPassword = newUser.get({ plain: true });

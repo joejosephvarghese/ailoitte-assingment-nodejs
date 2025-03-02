@@ -12,7 +12,7 @@ const createProduct = catchAsync(async (req, res) => {
     throw new ApiError(400, "Missing request body");
   }
 
-  let { name, price, description, categoryId } = req.body;
+  let { name, price, description, categoryId, stock } = req.body;
   price = parseFloat(price);
 
   await categoryService.findCategoryById(categoryId);
@@ -42,13 +42,14 @@ const createProduct = catchAsync(async (req, res) => {
     description,
     categoryId,
     images,
+    stock,
   });
 
   res.status(201).json({ result: newProduct });
 });
 
 const getAllProducts = catchAsync(async (req, res) => {
-  let { page, limit, search, catagory, minPrice, maxPrice,price } = req.query;
+  let { page, limit, search, catagory, minPrice, maxPrice, price } = req.query;
 
   let filter = {};
 

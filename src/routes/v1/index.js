@@ -3,6 +3,8 @@ const authRoute = require("./auth.route");
 const proudcutRoute = require("./products.route");
 const categoryRoute = require("./category.route");
 const cartRoute = require("./cart.route");
+const orderRoute = require("./order.route");
+const adminAuthRoute = require("./admin.auth.route");
 
 const router = express.Router();
 
@@ -10,6 +12,10 @@ const defaultRoutes = [
   {
     path: "/auth",
     route: authRoute,
+  },
+  {
+    path: "/admin",
+    route: adminAuthRoute,
   },
   {
     path: "/product",
@@ -22,6 +28,10 @@ const defaultRoutes = [
   {
     path: "/cart",
     route: cartRoute,
+  },
+  {
+    path: "/order",
+    route: orderRoute,
   },
 ];
 
