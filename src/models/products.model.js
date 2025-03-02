@@ -1,6 +1,7 @@
 const { Sequelize, DataTypes } = require('sequelize');
 const sequelize = require('../models/connection'); // Ensure correct Sequelize instance
 const paginate = require('../models/plugins/paginate.plugin'); // Pagination plugin
+const Category = require('../models/category.model'); // Import Category model
 
 // Define Product model
 const Product = sequelize.define('Product', {
@@ -55,6 +56,10 @@ const Product = sequelize.define('Product', {
 // Apply pagination plugin
 paginate(Product);
 
+Product.belongsTo(Category, {
+  foreignKey: 'categoryId',
+  as: 'category', // This alias must match the one in your query includes
+});
 
 (async () => {
   try {

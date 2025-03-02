@@ -1,75 +1,68 @@
-const {Product} = require('../models');
-const ApiError = require('../utils/apiError');
+const { Product ,Category} = require("../models");
+const ApiError = require("../utils/apiError");
+const { StatusCodes } = require("http-status-codes");
 
 const createProduct = async (productData) => {
-    const { name, price, description, categoryId, images } = productData;
+  const { name, price, description, categoryId, images } = productData;
 
-    // Ensure price is a valid number
-    const priceValue = parseFloat(price);
-    if (isNaN(priceValue)) throw new ApiError(400, "Invalid price value");
+  const priceValue = parseFloat(price);
+  if (isNaN(priceValue)) throw new ApiError(400, "Invalid price value");
 
-    // Create the product in the database
-    return await Product.create({ 
-        name, 
-        price: priceValue, 
-        description, 
-        categoryId, 
-        images 
-    });
+  return await Product.create({
+    name,
+    price: priceValue,
+    description,
+    categoryId,
+    images,
+  });
 };
 
-
-const getAllProducts=async(filter,options)=>{
-    return await Product.paginate(filter, options);
-}
-
-
+const getAllProducts = async (filter, options) => {
+  return await Product.paginate(filter, options);
+};
 
 const findProductById = async (productId) => {
-    const product = await Product.findByPk(productId);
-  
-    if (!product) {
-      throw new ApiError(StatusCodes.NOT_FOUND, "product not found");
+  const product = await Product.findByPk(productId, {
+    include: {
+      model: Category,
+      as: 'category',// This alias must match the one defined in Product.associate
     }
-    return product;
-  };
+  });
+
+
+  if (!product) {
+    throw new ApiError(StatusCodes.NOT_FOUND, "product not found");
+  }
+  return product;
+};
 
 const extractPublicId = async (url) => {
-    return new Promise((resolve, reject) => {
-      try {
-        // Split the URL at the "/upload/" segment.
-        const parts = url.split('/upload/');
-        if (parts.length < 2) return reject(new Error("Invalid URL format"));
-  
-        // parts[1] is something like "v1740858397/products/product_1740858394739_a01aa9dd51674bbbafa9ad2400c38dbd_9366.webp.webp"
-        const subParts = parts[1].split('/');
-  
-        // Remove the version segment if present.
-        if (subParts[0].startsWith("v")) {
-          subParts.shift();
-        }
-  
-        // Join the remaining segments to form the public_id with extension.
-        const publicIdWithExt = subParts.join('/');
-  
-        // Remove the last file extension from the public_id.
-        const publicId = publicIdWithExt.replace(/\.[^/.]+$/, "");
-        
-        resolve(publicId);
-      } catch (error) {
-        console.error("Error extracting public_id from URL:", error);
-        reject(error);
+  return new Promise((resolve, reject) => {
+    try {
+      const parts = url.split("/upload/");
+      if (parts.length < 2) return reject(new Error("Invalid URL format"));
+
+      const subParts = parts[1].split("/");
+
+      if (subParts[0].startsWith("v")) {
+        subParts.shift();
       }
-    });
-  };
-  
- 
-  
+
+      const publicIdWithExt = subParts.join("/");
+
+      const publicId = publicIdWithExt.replace(/\.[^/.]+$/, "");
+
+      resolve(publicId);
+    } catch (error) {
+      console.error("Error extracting public_id from URL:", error);
+      reject(error);
+    }
+  });
+};
 
 module.exports = {
-    createProduct,
-    getAllProducts,
-    extractPublicId,
-    findProductById
-
+  createProduct,
+  getAllProducts,
+  extractPublicId,
+  findProductById,
 };

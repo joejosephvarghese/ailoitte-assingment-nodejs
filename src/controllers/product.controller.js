@@ -5,6 +5,8 @@ const { productService, categoryService } = require("../services");
 const ApiError = require("../utils/apiError");
 const { uploadImage, deleteImage } = require("../services/cloudinary.service");
 
+const {Category}=require('../models')
+
 const createProduct = catchAsync(async (req, res) => {
   if (!req.body || Object.keys(req.body).length === 0) {
     throw new ApiError(400, "Missing request body");
@@ -58,6 +60,13 @@ const getAllProducts = catchAsync(async (req, res) => {
   let options = {
     page,
     limit,
+    include: [
+      {
+        model: Category, // Populates the category details based on the association
+        as: 'category',  // Make sure this alias matches your association in the Product model
+      },
+    ],
+    
   };
   const products = await productService.getAllProducts(filter, options);
   res.status(200).json(products);
@@ -131,8 +140,15 @@ const updateProduct = catchAsync(async (req, res) => {
   res.status(200).json(updatedProduct);
 });
 
+const getProductById= catchAsync(async(req,res)=>{
+
+  const product =await productService.findProductById(req.params.productId)
+  res.status(StatusCodes.OK).json({result:product})
+})
+
 module.exports = {
   createProduct,
   getAllProducts,
   updateProduct,
+  getProductById
 };

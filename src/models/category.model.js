@@ -27,6 +27,14 @@ const Category = sequelize.define('Category', {
 // Apply pagination plugin
 paginate(Category);
 
+
+// Category.associate = (models) => {
+//   Category.hasMany(models.Product, {
+//     foreignKey: 'categoryId',
+//     as: 'products',
+//   });
+// };
+
 // Sync the model only if it hasn't been synced before
 (async () => {
   try {
