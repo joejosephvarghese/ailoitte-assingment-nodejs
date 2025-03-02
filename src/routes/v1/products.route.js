@@ -6,5 +6,7 @@ const upload = multer();
 
 router.post( "/", upload.fields([{ name: "file" }]), productController.createProduct);
 
+router.put( "/:productId", upload.fields([{ name: "file" }]), productController.updateProduct);
+
 router.get("/", productController.getAllProducts);
 module.exports = router;

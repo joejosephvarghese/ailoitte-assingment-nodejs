@@ -17,6 +17,7 @@ const uploadImage = (buffer, filename) => {
         const stream = cloudinary.uploader.upload_stream(
             { folder: 'products', public_id: filename, resource_type: 'auto' },
             (error, result) => {
+                console.log(result.public_id,"publicid")
                 if (error) {
                     reject(error);
                 } else {
@@ -38,5 +39,20 @@ const getAutoCropUrl = (publicId, width = 500, height = 500) => {
     return cloudinary.url(publicId, { crop: "auto", gravity: "auto", width, height });
 };
 
-// Export functions
-module.exports = { uploadImage, getOptimizedUrl, getAutoCropUrl, cloudinary };
+
+// Delete Image Function
+const deleteImage = (publicId) => {
+    return new Promise((resolve, reject) => {
+        cloudinary.uploader.destroy(publicId, (error, result) => {
+            if (error) {
+                console.error(`Error deleting image ${publicId} from Cloudinary:`, error);
+                return reject(error);
+            }
+            console.log(`Deleted image ${publicId} from Cloudinary:`, result);
+            resolve(result);
+        });
+    });
+};
+
+
+module.exports = { uploadImage, getOptimizedUrl, getAutoCropUrl,deleteImage, cloudinary };
