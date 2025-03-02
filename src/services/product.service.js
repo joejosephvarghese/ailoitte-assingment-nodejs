@@ -1,4 +1,4 @@
-const { Product ,Category} = require("../models");
+const { Product, Category } = require("../models");
 const ApiError = require("../utils/apiError");
 const { StatusCodes } = require("http-status-codes");
 
@@ -25,10 +25,9 @@ const findProductById = async (productId) => {
   const product = await Product.findByPk(productId, {
     include: {
       model: Category,
-      as: 'category',// This alias must match the one defined in Product.associate
-    }
+      as: "category",
+    },
   });
-
 
   if (!product) {
     throw new ApiError(StatusCodes.NOT_FOUND, "product not found");
@@ -60,9 +59,21 @@ const extractPublicId = async (url) => {
   });
 };
 
+const deleteProduct = async (productId) => {
+  const product = await Product.findByPk(productId);
+
+  if (!product) {
+    throw new ApiError(StatusCodes.NOT_FOUND, "product not found");
+  }
+
+  await product.destroy();
+  return;
+};
+
 module.exports = {
   createProduct,
   getAllProducts,
   extractPublicId,
   findProductById,
+  deleteProduct,
 };

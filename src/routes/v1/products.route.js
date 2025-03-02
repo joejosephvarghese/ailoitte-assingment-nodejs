@@ -8,6 +8,7 @@ router.post( "/", upload.fields([{ name: "file" }]), productController.createPro
 
 router.put( "/:productId", upload.fields([{ name: "file" }]), productController.updateProduct);
 
-router.get( "/:productId",productController.getProductById);
+router.get("/:productId",productController.getProductById);
+router.delete("/:productId",productController.deleteProduct);
 router.get("/", productController.getAllProducts);
 module.exports = router;

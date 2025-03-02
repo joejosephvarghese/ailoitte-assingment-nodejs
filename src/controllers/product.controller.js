@@ -146,9 +146,16 @@ const getProductById= catchAsync(async(req,res)=>{
   res.status(StatusCodes.OK).json({result:product})
 })
 
+
+const deleteProduct= catchAsync(async(req,res)=>{
+
+  const product =await productService.deleteProduct(req.params.productId)
+  res.status(StatusCodes.OK).json({message:"OK"})
+})
 module.exports = {
   createProduct,
   getAllProducts,
   updateProduct,
-  getProductById
+  getProductById,
+  deleteProduct
 };

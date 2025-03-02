@@ -43,7 +43,6 @@ const paginate = (model) => {
     if (options.include) {
       findOptions.include = options.include;
     }
-    console.log(findOptions)
 
     // Run count and findAll queries simultaneously
     const countPromise = model.count({ where: filter });
