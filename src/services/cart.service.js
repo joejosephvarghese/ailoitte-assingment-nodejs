@@ -3,7 +3,7 @@ const { StatusCodes } = require("http-status-codes");
 const { Cart } = require("../models");
 const apiError = require("../utils/apiError");
 
-const createCart = async (userId, productId, quantity = 1) => {
+const createCart = async (userId, productId, quantity ) => {
   const numQuantity = Number(quantity);
   const [cartItem, created] = await Cart.findOrCreate({
     where: { userId, productId },

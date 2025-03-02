@@ -7,6 +7,7 @@ const logger = require("./config/logger");
 const { StatusCodes } = require("http-status-codes");
 const ApiError = require("./utils/apiError");
 const { errorConverter, errorHandler } = require("../src/middleware/error");
+const setupSwagger = require("../src/swagger");
 
 const app = express();
 
@@ -18,6 +19,9 @@ sequelize
   .authenticate()
   .then(() => logger.info("Connected to postgres"))
   .catch((err) => console.error("Error: " + err));
+
+// Setup Swagger
+setupSwagger(app);
 
 app.use("/v1", routes);
 

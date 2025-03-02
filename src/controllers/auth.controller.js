@@ -5,13 +5,13 @@ const { authServices, tokenServices, userServices } = require("../services");
 const ApiError = require("../utils/apiError");
 
 const register = catchAsync(async (req, res, next) => {
-  const { name, email, password, profilePic, role } = req.body;
-
+  const { name, email, password } = req.body;
+const role='user'
   const newUser = await authServices.registerUser({
     name,
     email,
     password,
-    profilePic,
+    role
   });
   const token = tokenServices.generateToken(newUser.id);
 
@@ -42,11 +42,13 @@ const login = catchAsync(async (req, res) => {
 
 const adminSignUp = catchAsync(async (req, res, next) => {
   const { name, email, password, } = req.body;
+  const role="admin"
 
   const newUser = await authServices.registerUser({
     name,
     email,
-    password
+    password,
+    role
   });
   const token = tokenServices.generateToken(newUser.id);
 

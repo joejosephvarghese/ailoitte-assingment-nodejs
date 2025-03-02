@@ -4,7 +4,7 @@ const ApiError = require('../utils/apiError');
 const { v4: uuidv4 } = require('uuid');
 const { StatusCodes } = require('http-status-codes');
 
-const registerUser = async ({ name, email, password, profilePic }) => {
+const registerUser = async ({ name, email, password, role }) => {
   const userExists = await User.findOne({ where: { email } });
   if (userExists) {
     throw new ApiError(StatusCodes.BAD_REQUEST, 'User already exists');
@@ -17,7 +17,7 @@ const registerUser = async ({ name, email, password, profilePic }) => {
     name,
     email,
     password: hashedPassword,
-    role: "admin"
+    role:role
   });
 
   const userWithoutPassword = newUser.get({ plain: true });
