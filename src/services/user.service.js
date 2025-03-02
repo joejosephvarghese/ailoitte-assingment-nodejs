@@ -4,4 +4,10 @@ const findByEmail = async (email) => {
   return await User.findOne({ where: { email } });
 };
 
-module.exports = { findByEmail };
+
+const findById = async (userId) => {
+  return await User.findByPk(userId);
+};
+module.exports = { 
+  findByEmail,
+  findById };

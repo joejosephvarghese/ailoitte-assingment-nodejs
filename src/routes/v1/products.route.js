@@ -4,11 +4,19 @@ const multer = require("multer");
 const router = express.Router();
 const upload = multer();
 
-router.post( "/", upload.fields([{ name: "file" }]), productController.createProduct);
+router.post(
+  "/",
+  upload.fields([{ name: "file" }]),
+  productController.createProduct
+);
 
-router.put( "/:productId", upload.fields([{ name: "file" }]), productController.updateProduct);
+router.put(
+  "/:productId",
+  upload.fields([{ name: "file" }]),
+  productController.updateProduct
+);
 
-router.get("/:productId",productController.getProductById);
-router.delete("/:productId",productController.deleteProduct);
+router.get("/:productId", productController.getProductById);
+router.delete("/:productId", productController.deleteProduct);
 router.get("/", productController.getAllProducts);
 module.exports = router;
