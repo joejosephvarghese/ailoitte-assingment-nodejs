@@ -39,10 +39,10 @@ npm install
 
 
 
-##Start the server:
+## Start the server:
 npm run dev
 
-#local server
+# local server
 http://localhost:3000
 
 
