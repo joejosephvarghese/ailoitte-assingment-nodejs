@@ -2,6 +2,12 @@
 
 This project is a RESTful API for an e-commerce platform built using Node.js (Express.js) and PostgreSQL. It provides user authentication, product management with categories and image upload, a shopping cart, and order processing. The API also supports product filtering by categories, price range, and name, along with Swagger API documentation and automated testing
 
+
+![Node.js](https://img.shields.io/badge/Node.js-Express-green)
+![PostgreSQL](https://img.shields.io/badge/Database-PostgreSQL-blue)
+![Swagger](https://img.shields.io/badge/API-Swagger-orange)
+
+
  # Create a .env file in the root directory and add the following environment variables:
 
 
