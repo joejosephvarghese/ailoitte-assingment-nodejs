@@ -50,4 +50,32 @@ http://localhost:3000
 ✅ **Swagger Docs are available at:** **[http://localhost:3000/api-docs](http://localhost:3000/api-docs)**  
 
 
+## Authentication (JWT)
+JSON Web Token (JWT) is an open standard for securely transmitting information between parties as a compact and self-contained token. It is commonly used for authentication and authorization in web applications.
+
+---
+
+## Other Third-Party Libraries
+
+### Multer  
+Multer is a middleware for handling `multipart/form-data`, which is commonly used for file uploads in web applications. It integrates seamlessly with Express.js and provides a convenient way to process file data and store files on the server.
+
+### Cloudinary  
+Cloudinary is a cloud-based media management platform that offers various services for handling images and videos. It provides features such as:
+- Image and video upload  
+- Storage and transformation  
+- Optimization and efficient delivery  
+
+With Cloudinary, you can easily manage and manipulate media assets in your application.
+
+### Helmet  
+Helmet is a middleware for securing Express.js applications by setting various HTTP headers related to security. It helps protect against common web vulnerabilities such as:
+- Cross-Site Scripting (XSS) attacks  
+- Cross-Site Request Forgery (CSRF) attacks  
+- Other security threats  
+
+Helmet simplifies the process of enabling essential security headers for your Express.js application.
+
+
+
 
