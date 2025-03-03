@@ -33,15 +33,16 @@ CLOUDINARY_API_SECRET=your_cloudinary_api_secret
 
 
 
-Install dependencies:
+## Install dependencies:
 
 npm install
 
 
 
-Start the server:
+##Start the server:
 npm run dev
 
+#local server
 http://localhost:3000
 
 
