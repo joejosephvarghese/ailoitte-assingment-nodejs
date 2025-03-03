@@ -23,6 +23,7 @@ npm install
 
 
 Start the server:
+npm run dev
 
 http://localhost:3000
 
