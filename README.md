@@ -1,6 +1,5 @@
-## Environment Variables
+Create a .env file in the root directory and add the following environment variables:
 
-Below are the required environment variables for the project:
 
 
 DB_USER=your_db_user
@@ -14,3 +13,23 @@ JWT_SECRET=your_jwt_secret_key
 CLOUDINARY_CLOUD_NAME=your_cloudinary_cloud_name
 CLOUDINARY_API_KEY=your_cloudinary_api_key
 CLOUDINARY_API_SECRET=your_cloudinary_api_secret
+
+
+
+Install dependencies:
+
+npm install
+
+
+
+Start the server:
+
+http://localhost:3000
+
+
+API Documentation
+✅ Swagger Docs are available at:
+http://localhost:3000/api-docs
+
+
+
