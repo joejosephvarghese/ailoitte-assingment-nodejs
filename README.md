@@ -40,7 +40,6 @@ http://localhost:3000
 
 ## API Documentation  
 ✅ **Swagger Docs are available at:** **[http://localhost:3000/api-docs](http://localhost:3000/api-docs)**  
-![Swagger UI](./docs/swagger-screenshot.png)
 
 
 
